@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
-import { Link } from "react-router";
+import { useParams, Link, useNavigate } from "react-router";
 
 export default function RecipeDetails() {
   const { id } = useParams();
-  
+  const navigate = useNavigate();
+
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -29,6 +29,11 @@ export default function RecipeDetails() {
       });
   }, [id]);
 
+  const goRandom = () => {
+    const randomId = Math.floor(Math.random() * 50) + 1;
+    navigate(`/recipes/${randomId}`);
+  };
+
   if (loading) {
     return <p>טוען...</p>;
   }
@@ -42,6 +47,11 @@ export default function RecipeDetails() {
       <p>
         <Link to="/recipes">חזרה לרשימה </Link>
       </p>
+
+      <div>
+        <button onClick={() => navigate(-1)}>חזרה</button>
+        <button onClick={goRandom}>מתכון אקראי</button>
+      </div>
 
       {recipe && (
         <>
